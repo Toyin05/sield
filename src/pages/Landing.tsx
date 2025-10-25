@@ -27,12 +27,12 @@ const Landing = () => {
             </div>
             
             <h1 className="text-5xl md:text-7xl font-bold text-primary-foreground mb-6 leading-tight">
-              Protect, Share, and Verify<br />
+              <span className="text-secondary">Sield:</span> Protect, Share, and Verify<br />
               <span className="text-secondary">Legal Documents Securely</span>
             </h1>
             
             <p className="text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
-              Enterprise-grade encryption meets blockchain transparency. Store, share, and audit sensitive legal documents with complete confidence.
+              <strong>Sield</strong> brings enterprise-grade encryption and blockchain transparency together. Store, share, and audit sensitive legal documents with complete confidence using BlockDAG technology.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -67,7 +67,7 @@ const Landing = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">
-              Why Choose DocuVault?
+              Why Choose <span className="text-secondary">Sield</span>?
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               Built for lawyers, agencies, and organizations that demand the highest level of security and transparency.
@@ -101,10 +101,10 @@ const Landing = () => {
         
         <div className="container mx-auto px-4 text-center relative z-10">
           <h2 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-6">
-            Ready to Secure Your Documents?
+            Ready to Secure Your Documents with <span className="text-secondary">Sield</span>?
           </h2>
           <p className="text-primary-foreground/90 text-lg mb-8 max-w-2xl mx-auto">
-            Join the future of legal document management. Start protecting your sensitive files with blockchain technology today.
+            Join the future of legal document management. Start protecting your sensitive files with <strong>Sield</strong>'s blockchain technology today.
           </p>
           <Button 
             size="lg"
@@ -121,11 +121,11 @@ const Landing = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-4 md:mb-0">
-              <h3 className="text-2xl font-bold text-secondary">DocuVault</h3>
+              <h3 className="text-2xl font-bold text-secondary">Sield</h3>
               <p className="text-primary-foreground/70 text-sm mt-1">Secure. Transparent. Decentralized.</p>
             </div>
             <div className="text-primary-foreground/70 text-sm">
-              © 2025 DocuVault. Powered by BlockDAG.
+              © 2025 Sield. Powered by BlockDAG.
             </div>
           </div>
         </div>

@@ -43,17 +43,56 @@ const Dashboard = () => {
       <div className="space-y-8 animate-fade-in">
         {/* Welcome Section */}
         <div className="bg-gradient-hero rounded-2xl p-8 text-primary-foreground">
-          <h1 className="text-3xl font-bold mb-2">Welcome to DocuVault</h1>
+          <h1 className="text-3xl font-bold mb-2">Welcome to Sield</h1>
           <p className="text-primary-foreground/80 mb-6">
             Your secure blockchain-powered document management system
           </p>
-          <Button 
+          <Button
             onClick={() => navigate("/upload")}
             className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-glow-success"
           >
             <Upload className="w-4 h-4 mr-2" />
             Upload New Document
           </Button>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="grid md:grid-cols-3 gap-4">
+          <Card className="p-4 bg-gradient-card border-border hover:border-secondary/50 transition-all cursor-pointer group" onClick={() => navigate("/upload")}>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-secondary/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Upload className="w-5 h-5 text-secondary" />
+              </div>
+              <div>
+                <p className="font-medium text-foreground">Upload Document</p>
+                <p className="text-sm text-muted-foreground">Encrypt and store securely</p>
+              </div>
+            </div>
+          </Card>
+
+          <Card className="p-4 bg-gradient-card border-border hover:border-secondary/50 transition-all cursor-pointer group" onClick={() => navigate("/access-control")}>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-accent/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Shield className="w-5 h-5 text-accent" />
+              </div>
+              <div>
+                <p className="font-medium text-foreground">Manage Access</p>
+                <p className="text-sm text-muted-foreground">Control document permissions</p>
+              </div>
+            </div>
+          </Card>
+
+          <Card className="p-4 bg-gradient-card border-border hover:border-secondary/50 transition-all cursor-pointer group" onClick={() => navigate("/audit-log")}>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                <FileText className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <p className="font-medium text-foreground">View Audit Log</p>
+                <p className="text-sm text-muted-foreground">Track all activities</p>
+              </div>
+            </div>
+          </Card>
         </div>
 
         {/* Stats Grid */}
@@ -124,3 +163,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

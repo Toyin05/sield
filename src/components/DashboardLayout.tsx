@@ -29,10 +29,10 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-8">
               <button 
-                onClick={() => navigate("/")}
+                onClick={() => navigate("")}
                 className="text-2xl font-bold text-secondary hover:text-secondary/80 transition-colors"
               >
-                DocuVault
+                Sield
               </button>
               
               {/* Desktop Navigation */}
@@ -118,7 +118,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
               <Shield className="w-16 h-16 text-secondary mx-auto" />
               <h2 className="text-2xl font-bold text-foreground">Connect Your Wallet</h2>
               <p className="text-muted-foreground max-w-md">
-                Please connect your wallet to access DocuVault features and manage your documents.
+                Please connect your wallet to access Sield features and manage your documents.
               </p>
               <div className="pt-4">
                 <WalletConnect 

@@ -2,14 +2,20 @@ import { useState } from "react";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Upload as UploadIcon, File, Lock, Server, CheckCircle2 } from "lucide-react";
+import { Upload as UploadIcon, File, Lock, Server, CheckCircle2, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
+import { blockDAGService } from "@/lib/blockchain";
+import { ipfsService } from "@/lib/ipfs";
+import { EncryptionService } from "@/lib/encryption";
 
 const Upload = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadStage, setUploadStage] = useState<string>("");
+  const [uploadedFile, setUploadedFile] = useState<{ cid: string; key: string } | null>(null);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -28,35 +34,52 @@ const Upload = () => {
     }
   };
 
-  const simulateUpload = async () => {
+  const handleUpload = async () => {
     if (!selectedFile) return;
 
     setUploading(true);
-    
-    // Simulate encryption
-    setUploadStage("Encrypting file with AES-256...");
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // Simulate IPFS upload
-    setUploadStage("Uploading to IPFS...");
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    // Simulate blockchain transaction
-    setUploadStage("Recording metadata on BlockDAG...");
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setUploadStage("Complete!");
-    
-    toast({
-      title: "Upload Successful",
-      description: "Your document has been encrypted and stored securely.",
-    });
-    
-    setTimeout(() => {
-      setSelectedFile(null);
+
+    try {
+      // Step 1: Encrypt file
+      setUploadStage("Encrypting file with AES-256...");
+      const { encryptedData, key } = await EncryptionService.encryptFile(selectedFile);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Step 2: Upload to IPFS
+      setUploadStage("Uploading to IPFS...");
+      const encryptedBlob = new Blob([encryptedData], { type: 'application/octet-stream' });
+      const cid = await ipfsService.uploadFile(encryptedBlob);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Step 3: Record on blockchain (mock for demo)
+      setUploadStage("Recording metadata on BlockDAG...");
+      // For demo purposes, we'll simulate the blockchain transaction
+      // In production, this would connect to actual BlockDAG network
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      setUploadStage("Complete!");
+      setUploadedFile({ cid, key });
+
+      toast({
+        title: "Upload Successful",
+        description: "Your document has been encrypted and stored securely.",
+      });
+
+      // Auto-redirect to access control after success
+      setTimeout(() => {
+        navigate("/access-control");
+      }, 2000);
+
+    } catch (error) {
+      console.error('Upload failed:', error);
+      toast({
+        title: "Upload Failed",
+        description: error instanceof Error ? error.message : "An error occurred during upload",
+        variant: "destructive",
+      });
       setUploading(false);
       setUploadStage("");
-    }, 2000);
+    }
   };
 
   return (
@@ -164,14 +187,34 @@ const Upload = () => {
                   )}
                 </div>
               ) : (
-                <Button 
-                  onClick={simulateUpload}
-                  className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-glow-cyan"
-                  size="lg"
-                >
-                  <Lock className="w-4 h-4 mr-2" />
-                  Encrypt and Upload
-                </Button>
+                <div className="space-y-4">
+                  <Button
+                    onClick={handleUpload}
+                    className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-glow-cyan"
+                    size="lg"
+                  >
+                    <Lock className="w-4 h-4 mr-2" />
+                    Encrypt and Upload
+                  </Button>
+
+                  {uploadedFile && (
+                    <div className="p-4 bg-accent/10 border border-accent/30 rounded-lg">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-accent font-medium">Upload Complete!</p>
+                          <p className="text-sm text-muted-foreground">Ready to manage access permissions</p>
+                        </div>
+                        <Button
+                          onClick={() => navigate("/access-control")}
+                          className="bg-accent hover:bg-accent/90 text-accent-foreground"
+                        >
+                          Manage Access
+                          <ArrowRight className="w-4 h-4 ml-2" />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               )}
 
               {/* Security Info */}
@@ -211,3 +254,4 @@ const Upload = () => {
 };
 
 export default Upload;
+
