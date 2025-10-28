@@ -1,11 +1,14 @@
+import React from "react";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { Card } from "@/components/ui/card";
-import { FileText, Shield, Clock, Upload } from "lucide-react";
+import { FileText, Shield, Clock, Upload, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useSecurity } from "@/contexts/SecurityContext";
 
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
   const navigate = useNavigate();
+  const { walletAddress } = useSecurity();
 
   // Mock data - will be replaced with real blockchain data
   const stats = [
@@ -15,26 +18,35 @@ const Dashboard = () => {
   ];
 
   const recentFiles = [
-    { 
-      name: "Contract_Agreement_2025.pdf", 
-      date: "2025-01-15", 
+    {
+      name: "Contract_Agreement_2025.pdf",
+      date: "2025-01-15",
       status: "Encrypted",
       size: "2.4 MB",
-      shared: 2
+      shared: 2,
+      cid: "bafy1234567890abcdef",
+      key: "encrypted_key_1",
+      iv: "iv_vector_1",
     },
-    { 
-      name: "Legal_Brief_Case_442.docx", 
-      date: "2025-01-14", 
+    {
+      name: "Legal_Brief_Case_442.docx",
+      date: "2025-01-14",
       status: "Encrypted",
       size: "1.8 MB",
-      shared: 1
+      shared: 1,
+      cid: "bafy0987654321fedcba",
+      key: "encrypted_key_2",
+      iv: "iv_vector_2",
     },
-    { 
-      name: "Evidence_Document_A.pdf", 
-      date: "2025-01-12", 
+    {
+      name: "Evidence_Document_A.pdf",
+      date: "2025-01-12",
       status: "Encrypted",
       size: "5.2 MB",
-      shared: 3
+      shared: 3,
+      cid: "bafyabcdef1234567890",
+      key: "encrypted_key_3",
+      iv: "iv_vector_3",
     },
   ];
 
@@ -44,9 +56,7 @@ const Dashboard = () => {
         {/* Welcome Section */}
         <div className="bg-gradient-hero rounded-2xl p-8 text-primary-foreground">
           <h1 className="text-3xl font-bold mb-2">Welcome to Sield</h1>
-          <p className="text-primary-foreground/80 mb-6">
-            Your secure blockchain-powered document management system
-          </p>
+          <p className="text-primary-foreground/80 mb-6">Your secure blockchain-powered document management system</p>
           <Button
             onClick={() => navigate("/upload")}
             className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-glow-success"
@@ -54,45 +64,6 @@ const Dashboard = () => {
             <Upload className="w-4 h-4 mr-2" />
             Upload New Document
           </Button>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="grid md:grid-cols-3 gap-4">
-          <Card className="p-4 bg-gradient-card border-border hover:border-secondary/50 transition-all cursor-pointer group" onClick={() => navigate("/upload")}>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-secondary/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Upload className="w-5 h-5 text-secondary" />
-              </div>
-              <div>
-                <p className="font-medium text-foreground">Upload Document</p>
-                <p className="text-sm text-muted-foreground">Encrypt and store securely</p>
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-4 bg-gradient-card border-border hover:border-secondary/50 transition-all cursor-pointer group" onClick={() => navigate("/access-control")}>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-accent/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Shield className="w-5 h-5 text-accent" />
-              </div>
-              <div>
-                <p className="font-medium text-foreground">Manage Access</p>
-                <p className="text-sm text-muted-foreground">Control document permissions</p>
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-4 bg-gradient-card border-border hover:border-secondary/50 transition-all cursor-pointer group" onClick={() => navigate("/audit-log")}>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                <FileText className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <p className="font-medium text-foreground">View Audit Log</p>
-                <p className="text-sm text-muted-foreground">Track all activities</p>
-              </div>
-            </div>
-          </Card>
         </div>
 
         {/* Stats Grid */}
@@ -119,12 +90,14 @@ const Dashboard = () => {
         <Card className="p-6 bg-gradient-card border-border">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-foreground">Recent Documents</h2>
-            <Button variant="outline" size="sm">View All</Button>
+            <Button variant="outline" size="sm">
+              View All
+            </Button>
           </div>
-          
+
           <div className="space-y-4">
             {recentFiles.map((file, index) => (
-              <div 
+              <div
                 key={index}
                 className="flex items-center justify-between p-4 bg-background rounded-lg border border-border hover:border-secondary/50 transition-all cursor-pointer group"
               >
@@ -133,25 +106,31 @@ const Dashboard = () => {
                     <FileText className="w-5 h-5 text-secondary" />
                   </div>
                   <div>
-                    <p className="font-medium text-foreground group-hover:text-secondary transition-colors">
-                      {file.name}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {file.size} • {file.date}
-                    </p>
+                    <p className="font-medium text-foreground group-hover:text-secondary transition-colors">{file.name}</p>
+                    <p className="text-sm text-muted-foreground">{file.size} • {file.date}</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center gap-6">
                   <div className="text-right">
                     <div className="inline-flex items-center gap-1.5 bg-accent/10 px-3 py-1 rounded-full">
                       <div className="w-2 h-2 bg-accent rounded-full" />
                       <span className="text-xs font-medium text-accent">{file.status}</span>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Shared with {file.shared} users
-                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">Shared with {file.shared} users</p>
                   </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/viewer?cid=${file.cid}&key=${file.key}&iv=${file.iv}`);
+                    }}
+                    className="opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <Eye className="w-4 h-4 mr-1" />
+                    View Secure
+                  </Button>
                 </div>
               </div>
             ))}

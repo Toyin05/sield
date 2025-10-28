@@ -1,6 +1,8 @@
 import { ReactNode, useState } from "react";
-import { WalletConnect } from "@/components/WalletConnect";
+import { ConnectButton } from "@/components/ConnectButton";
+import { DisconnectButton } from "@/components/DisconnectButton";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useWallet } from "@/contexts/WalletContext";
 import { Home, Upload, Shield, FileText, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -11,7 +13,27 @@ interface DashboardLayoutProps {
 export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [account, setAccount] = useState<string | null>(null);
+
+  // Add defensive guard for missing wallet context
+  let wallet;
+  try {
+    wallet = useWallet();
+  } catch (err) {
+    // Provider missing - show fallback UI instead of throwing
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center space-y-4 p-6">
+          <Shield className="w-16 h-16 text-secondary mx-auto" />
+          <h2 className="text-2xl font-bold text-foreground">App Loading...</h2>
+          <p className="text-muted-foreground max-w-md">
+            Wallet provider not ready. Please refresh the page.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const { isConnected } = wallet;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const menuItems = [
@@ -29,7 +51,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-8">
               <button 
-                onClick={() => navigate("")}
+                onClick={() => navigate("/")}
                 className="text-2xl font-bold text-secondary hover:text-secondary/80 transition-colors"
               >
                 Sield
@@ -60,10 +82,10 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
             {/* Desktop Wallet */}
             <div className="hidden md:block">
-              <WalletConnect 
-                onConnect={setAccount}
-                onDisconnect={() => setAccount(null)}
-              />
+              <div className="flex items-center gap-3">
+                <ConnectButton />
+                {isConnected && <DisconnectButton />}
+              </div>
             </div>
 
             {/* Mobile Menu Button */}
@@ -100,10 +122,10 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                 );
               })}
               <div className="pt-4">
-                <WalletConnect 
-                  onConnect={setAccount}
-                  onDisconnect={() => setAccount(null)}
-                />
+                <div className="flex items-center gap-3">
+                  <ConnectButton />
+                  {isConnected && <DisconnectButton />}
+                </div>
               </div>
             </div>
           )}
@@ -112,7 +134,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
-        {!account ? (
+        {!isConnected ? (
           <div className="flex items-center justify-center min-h-[60vh]">
             <div className="text-center space-y-4">
               <Shield className="w-16 h-16 text-secondary mx-auto" />
@@ -121,10 +143,10 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                 Please connect your wallet to access Sield features and manage your documents.
               </p>
               <div className="pt-4">
-                <WalletConnect 
-                  onConnect={setAccount}
-                  onDisconnect={() => setAccount(null)}
-                />
+                <div className="flex items-center gap-3">
+                  <ConnectButton />
+                  {isConnected && <DisconnectButton />}
+                </div>
               </div>
             </div>
           </div>

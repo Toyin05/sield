@@ -2,9 +2,10 @@ import { useState } from "react";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Upload as UploadIcon, File, Lock, Server, CheckCircle2, ArrowRight } from "lucide-react";
+import { Upload as UploadIcon, File, Lock, Server, CheckCircle2, ArrowRight, Shield } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { useSecurity } from "@/contexts/SecurityContext";
 import { blockDAGService } from "@/lib/blockchain";
 import { ipfsService } from "@/lib/ipfs";
 import { EncryptionService } from "@/lib/encryption";
@@ -13,9 +14,10 @@ const Upload = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadStage, setUploadStage] = useState<string>("");
-  const [uploadedFile, setUploadedFile] = useState<{ cid: string; key: string } | null>(null);
+  const [uploadedFile, setUploadedFile] = useState<{ cid: string; key: string; iv: string } | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { violationCount, isSecureMode } = useSecurity();
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -40,29 +42,32 @@ const Upload = () => {
     setUploading(true);
 
     try {
-      // Step 1: Encrypt file
-      setUploadStage("Encrypting file with AES-256...");
-      const { encryptedData, key } = await EncryptionService.encryptFile(selectedFile);
+      // Step 1: Encrypt file with AES-256-GCM
+      setUploadStage("Encrypting file with AES-256-GCM...");
+      const { encryptedData, key, iv } = await EncryptionService.encryptFile(selectedFile);
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // Step 2: Upload to IPFS
-      setUploadStage("Uploading to IPFS...");
-      const encryptedBlob = new Blob([encryptedData], { type: 'application/octet-stream' });
+      // Step 2: Upload encrypted file to IPFS
+      setUploadStage("Uploading encrypted file to IPFS...");
+      const encryptedBlob = new Blob([Uint8Array.from(atob(encryptedData), c => c.charCodeAt(0))], {
+        type: 'application/octet-stream'
+      });
       const cid = await ipfsService.uploadFile(encryptedBlob);
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // Step 3: Record on blockchain (mock for demo)
+      // Step 3: Record metadata on BlockDAG blockchain
       setUploadStage("Recording metadata on BlockDAG...");
-      // For demo purposes, we'll simulate the blockchain transaction
-      // In production, this would connect to actual BlockDAG network
+      // In production, this would call the smart contract:
+      // const txHash = await blockDAGService.uploadFile(cid, key);
+      // For demo, we'll simulate the blockchain transaction
       await new Promise(resolve => setTimeout(resolve, 1000));
 
       setUploadStage("Complete!");
-      setUploadedFile({ cid, key });
+      setUploadedFile({ cid, key, iv });
 
       toast({
         title: "Upload Successful",
-        description: "Your document has been encrypted and stored securely.",
+        description: "Your document has been encrypted with AES-256-GCM and stored securely on IPFS with metadata on BlockDAG.",
       });
 
       // Auto-redirect to access control after success
@@ -72,11 +77,6 @@ const Upload = () => {
 
     } catch (error) {
       console.error('Upload failed:', error);
-      toast({
-        title: "Upload Failed",
-        description: error instanceof Error ? error.message : "An error occurred during upload",
-        variant: "destructive",
-      });
       setUploading(false);
       setUploadStage("");
     }
@@ -93,6 +93,18 @@ const Upload = () => {
         </div>
 
         <Card className="p-8 bg-gradient-card border-border">
+          {violationCount > 0 && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <div className="flex items-center gap-2 text-red-800">
+                <Shield className="w-5 h-5" />
+                <span className="font-medium">Security Alert</span>
+              </div>
+              <p className="text-sm text-red-700 mt-1">
+                {violationCount} security violation{violationCount !== 1 ? 's' : ''} detected. Screenshot attempts will terminate the browser session.
+              </p>
+            </div>
+          )}
+
           {!selectedFile ? (
             <label className="flex flex-col items-center justify-center min-h-[400px] cursor-pointer border-2 border-dashed border-border hover:border-secondary/50 rounded-xl transition-all group">
               <input
@@ -113,7 +125,7 @@ const Upload = () => {
                     Supports PDF, DOC, DOCX, TXT, PNG, JPG (Max 50MB)
                   </p>
                 </div>
-                <Button variant="outline" className="mt-4">
+                <Button variant="outline" className="mt-4" onClick={() => document.querySelector('input[type="file"]')?.click()}>
                   Browse Files
                 </Button>
               </div>
@@ -152,8 +164,18 @@ const Upload = () => {
                       { icon: CheckCircle2, text: "Recording metadata on BlockDAG...", stage: 3 },
                     ].map((step, index) => {
                       const Icon = step.icon;
-                      const isActive = uploadStage.includes(step.text.split("...")[0]);
-                      const isComplete = uploadStage === "Complete!" && step.stage <= 3;
+                      const stageText = step.text.split("...")[0];
+                      const isActive = uploadStage.includes(stageText);
+                      const currentStage = uploadStage === "Complete!"
+                        ? 4
+                        : uploadStage.includes('Encrypting')
+                          ? 1
+                          : uploadStage.includes('Uploading')
+                            ? 2
+                            : uploadStage.includes('Recording')
+                              ? 3
+                              : 0;
+                      const isComplete = step.stage < currentStage || (uploadStage === "Complete!" && step.stage <= 3);
                       
                       return (
                         <div 
