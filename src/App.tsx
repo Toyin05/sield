@@ -8,6 +8,7 @@ import Upload from "./pages/Upload";
 import AccessControl from "./pages/AccessControl";
 import AuditLog from "./pages/AuditLog";
 import DocumentViewer from "./pages/DocumentViewer";
+import WalletConnect from "./pages/WalletConnect";
 import NotFound from "./pages/NotFound";
 
 const App = () => (
@@ -16,6 +17,7 @@ const App = () => (
     <Sonner />
     <Routes>
       <Route path="/" element={<Landing />} />
+      <Route path="/wallet-connect" element={<WalletConnect />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/upload" element={<Upload />} />
       <Route path="/access-control" element={<AccessControl />} />

@@ -1,14 +1,14 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Wallet } from "lucide-react";
-import { useWallet } from '../contexts/WalletContext';
+import { useWallet } from '../contexts/WalletProvider';
 
 export const ConnectButton: React.FC = () => {
-  const { walletAddress, isConnected, connectWallet } = useWallet();
+  const { account, isConnected, connect } = useWallet();
 
-  if (isConnected && walletAddress) {
+  if (isConnected && account) {
     // Show connected wallet address
-    const shortAddress = `${walletAddress.substring(0, 6)}...${walletAddress.substring(38)}`;
+    const shortAddress = `${account.substring(0, 6)}...${account.substring(38)}`;
     return (
       <div className="flex items-center gap-2 bg-card border border-border rounded-lg px-3 py-2">
         <div className="w-2 h-2 bg-accent rounded-full animate-pulse" />
@@ -19,8 +19,8 @@ export const ConnectButton: React.FC = () => {
 
   return (
     <Button
-      onClick={connectWallet}
-      className="bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-glow-cyan"
+      onClick={connect}
+      className="bg-secondary hover:bg-secondary/80 text-secondary-foreground shadow-glow-cyan font-semibold"
     >
       <Wallet className="w-4 h-4 mr-2" />
       Connect Wallet

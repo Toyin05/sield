@@ -117,6 +117,7 @@ Documents are encrypted client-side using AES-256-GCM, stored on IPFS for censor
 - **Vercel** — Cloud platform for seamless frontend hosting and continuous deployment
 - **ESLint + Prettier** — Code linting, formatting, and style enforcement
 - **MetaMask** — Wallet authentication and blockchain transaction signing
+- **WalletConnect** — Cross-platform wallet connectivity for mobile browsers
 
 ---
 
@@ -127,6 +128,7 @@ Documents are encrypted client-side using AES-256-GCM, stored on IPFS for censor
 - **Node.js 18+** — JavaScript runtime environment
 - **npm or yarn** — Package manager
 - **MetaMask** — Browser extension wallet connected to BlockDAG testnet/mainnet
+- **WalletConnect Project ID** — Required for WalletConnect integration (get from https://cloud.walletconnect.com/)
 - **Web3.Storage API Token** (Optional) — For production IPFS deployments
 
 ### Local Development Setup
@@ -159,9 +161,12 @@ npm run preview
 
 ### Environment Variables
 
-Create a `.env` file in the project root:
+Create a `.env.local` file in the project root:
 
 ```env
+# WalletConnect Project ID - Get from https://cloud.walletconnect.com/
+VITE_WALLETCONNECT_PROJECT_ID=your_project_id_here
+
 # BlockDAG Network Configuration
 VITE_BLOCKDAG_RPC_URL=https://rpc.blockdag.network
 VITE_BLOCKDAG_CHAIN_ID=2025
@@ -242,7 +247,7 @@ npx hardhat run scripts/deploy.js --network blockdag-mainnet
 
 ### Dashboard-Only Security Activation
 
-Security features activate **exclusively within the Dashboard** after successful MetaMask wallet connection:
+Security features activate **exclusively within the Dashboard** after successful wallet connection:
 
 - **Landing Page & Connection Flow**: Operates normally with no security restrictions to ensure smooth onboarding
 - **Automatic Activation**: Security suite engages immediately upon Dashboard entry
@@ -260,6 +265,21 @@ Security features activate **exclusively within the Dashboard** after successful
 ---
 
 ## 📋 How It Works
+
+### Wallet Connection Flow
+
+Sield supports three wallet connection methods for maximum compatibility:
+
+1. **Desktop MetaMask Extension**: Direct browser extension connection with injected `window.ethereum`
+2. **MetaMask Mobile In-App Browser**: Automatic detection and connection within MetaMask's built-in browser
+3. **Mobile Browsers (WalletConnect)**: QR code and deep-link support for Trust Wallet, Coinbase Wallet, and other Web3 wallets
+
+**Connection Process**:
+- Users click "Connect Wallet" buttons throughout the app, which navigate to `/wallet-connect`
+- The dedicated connection page attempts injected provider first (desktop/MetaMask mobile)
+- Falls back to WalletConnect modal for other mobile browsers
+- On successful connection, users are automatically redirected to `/dashboard`
+- Wallet sessions persist across browser refreshes
 
 ### Document Upload Process
 

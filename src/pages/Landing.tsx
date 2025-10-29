@@ -3,21 +3,12 @@ import { Shield, Lock, FileCheck, Server, Menu, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import heroBg from "@/assets/hero-bg.jpg";
 import { useWallet } from '@/contexts/WalletContext';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getWalletDebugInfo } from "@/utils/walletDebug";
 
 const Landing = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  // Prefer the context's connectWallet, but guard in case the context isn't mounted
-  let connectWalletFn: (() => Promise<void>) | undefined;
-  try {
-    const ctx = useWallet();
-    connectWalletFn = ctx?.connectWallet;
-  } catch (err) {
-    connectWalletFn = undefined;
-  }
-
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -45,23 +36,15 @@ const Landing = () => {
     }
   };
 
-  const handleConnectClick = async () => {
-    if (connectWalletFn) {
-      try {
-        await connectWalletFn();
-        return;
-      } catch (e) {
-        console.error('connectWalletFn failed', e);
-      }
-    }
-    await fallbackConnect();
+  const handleConnectClick = () => {
+    navigate('/wallet-connect');
   };
 
   return (
     <div className="min-h-screen">
       {/* Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
-        <div className="container mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <button
@@ -73,34 +56,34 @@ const Landing = () => {
             </div>
 
             {/* Desktop Menu */}
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden md:flex items-center space-x-6">
               <button
                 onClick={() => scrollToSection('home')}
-                className="text-foreground hover:text-secondary transition-colors"
+                className="text-foreground hover:text-secondary transition-colors text-sm"
               >
                 Home
               </button>
               <button
                 onClick={() => scrollToSection('about')}
-                className="text-foreground hover:text-secondary transition-colors"
+                className="text-foreground hover:text-secondary transition-colors text-sm"
               >
                 About
               </button>
               <button
                 onClick={() => scrollToSection('features')}
-                className="text-foreground hover:text-secondary transition-colors"
+                className="text-foreground hover:text-secondary transition-colors text-sm"
               >
                 Features
               </button>
               <button
                 onClick={() => scrollToSection('pricing')}
-                className="text-foreground hover:text-secondary transition-colors"
+                className="text-foreground hover:text-secondary transition-colors text-sm"
               >
                 Pricing
               </button>
               <Button
                 onClick={() => navigate("/dashboard")}
-                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground text-sm px-4 py-2"
               >
                 Launch App
               </Button>
@@ -458,6 +441,7 @@ const Landing = () => {
         </div>
       </section>
 
+
       {/* Footer */}
       <footer className="bg-primary text-primary-foreground py-12">
         <div className="container mx-auto px-4">
@@ -500,5 +484,7 @@ const features = [
 ];
 
 export default Landing;
+
+
 
 

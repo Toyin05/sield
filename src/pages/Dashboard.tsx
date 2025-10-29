@@ -1,14 +1,49 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { Card } from "@/components/ui/card";
 import { FileText, Shield, Clock, Upload, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { useSecurity } from "@/contexts/SecurityContext";
+import { useWallet } from "@/contexts/WalletProvider";
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
-  const { walletAddress } = useSecurity();
+  const { isConnected, isLoading } = useWallet();
+
+  console.log('[dashboard] component rendering, isConnected:', isConnected, 'isLoading:', isLoading);
+
+  // Redirect to wallet connect if not connected
+  useEffect(() => {
+    console.log('[dashboard] useEffect check - isLoading:', isLoading, 'isConnected:', isConnected);
+    if (!isLoading && !isConnected) {
+      console.info('[dashboard] no wallet connected, redirecting to wallet-connect');
+      navigate('/wallet-connect');
+    } else if (!isLoading && isConnected) {
+      console.info('[dashboard] wallet connected, staying on dashboard');
+      console.log('[dashboard] rendering dashboard content');
+    }
+  }, [isConnected, isLoading, navigate]);
+
+  // Show loading while checking wallet state
+  if (isLoading) {
+    console.log('[dashboard] showing loading screen - isLoading:', isLoading);
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-4 border-secondary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render dashboard if not connected
+  if (!isConnected) {
+    console.log('[dashboard] not connected, returning null - isConnected:', isConnected);
+    return null;
+  }
+
+  console.log('[dashboard] rendering dashboard content - all checks passed');
 
   // Mock data - will be replaced with real blockchain data
   const stats = [

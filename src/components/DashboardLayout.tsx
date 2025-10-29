@@ -2,7 +2,7 @@ import { ReactNode, useState } from "react";
 import { ConnectButton } from "@/components/ConnectButton";
 import { DisconnectButton } from "@/components/DisconnectButton";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useWallet } from "@/contexts/WalletContext";
+import { useWallet } from "@/contexts/WalletProvider";
 import { Home, Upload, Shield, FileText, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -14,26 +14,8 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Add defensive guard for missing wallet context
-  let wallet;
-  try {
-    wallet = useWallet();
-  } catch (err) {
-    // Provider missing - show fallback UI instead of throwing
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center space-y-4 p-6">
-          <Shield className="w-16 h-16 text-secondary mx-auto" />
-          <h2 className="text-2xl font-bold text-foreground">App Loading...</h2>
-          <p className="text-muted-foreground max-w-md">
-            Wallet provider not ready. Please refresh the page.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  const { isConnected } = wallet;
+  // Use wallet context - it should be available since this is wrapped in WalletProvider
+  const { isConnected, isLoading } = useWallet();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const menuItems = [
@@ -134,19 +116,28 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
-        {!isConnected ? (
+        {isLoading ? (
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <div className="text-center space-y-4">
+              <div className="w-8 h-8 border-4 border-secondary border-t-transparent rounded-full animate-spin mx-auto" />
+              <p className="text-muted-foreground">Loading...</p>
+            </div>
+          </div>
+        ) : !isConnected ? (
           <div className="flex items-center justify-center min-h-[60vh]">
             <div className="text-center space-y-4">
               <Shield className="w-16 h-16 text-secondary mx-auto" />
-              <h2 className="text-2xl font-bold text-foreground">Connect Your Wallet</h2>
+              <h2 className="text-2xl font-bold text-foreground">Wallet Not Connected</h2>
               <p className="text-muted-foreground max-w-md">
                 Please connect your wallet to access Sield features and manage your documents.
               </p>
               <div className="pt-4">
-                <div className="flex items-center gap-3">
-                  <ConnectButton />
-                  {isConnected && <DisconnectButton />}
-                </div>
+                <Button
+                  onClick={() => navigate('/wallet-connect')}
+                  className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+                >
+                  Connect Wallet
+                </Button>
               </div>
             </div>
           </div>
