@@ -16,7 +16,7 @@ A decentralized document management platform built for legal professionals — c
 
 - **🌐 Deployed App**: [https://sield-seven.vercel.app/](https://sield-seven.vercel.app/)
 - **📊 Pitch Deck**: [View on Google Drive](https://drive.google.com/file/d/1dBtJrfV-S3iZ7KW1UEnmz1jHVC4-p35j/view?usp=drivesdk)
-- **🎥 Demo Video**: [Watch on Google Drive](https://drive.google.com/file/d/1AToCL2ugOr6ME9DXyIwKvtwL6YQl1RMn/view?usp=drivesdk)
+- **🎥 Demo Video**: [Watch on Google Drive](https://drive.google.com/file/d/1zC9mhUYAKlNx74aB71G11IKYSosz_nsc/view?usp=drivesdk)
 - **📄 Business Proposal**: [View on Google Drive](https://drive.google.com/file/d/1u5rGRg17XhyEvK0E2jqDXpysBbU38jF2/view?usp=drivesdk)
 ---
 
