@@ -1,0 +1,13 @@
+This is a sample DOCX file for testing the Sield document viewer.
+
+Hello World!
+
+This document contains some basic text content to test the DOCX viewing functionality in the Sield secure document platform.
+
+Key features being tested:
+- DOCX file loading
+- Fullscreen viewing mode
+- Security controls
+- Time-based access control
+
+Thank you for using Sield!

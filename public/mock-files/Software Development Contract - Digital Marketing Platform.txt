@@ -1,0 +1,155 @@
+SOFTWARE DEVELOPMENT AGREEMENT
+
+THIS SOFTWARE DEVELOPMENT AGREEMENT ("Agreement") is entered into on this 10th day of November 2024, between:
+
+DEVELOPER: Lagos Tech Solutions Ltd, a company incorporated in Nigeria with RC No. 11223344, whose registered office is at 12 Herbert Macaulay Way, Yaba, Lagos (hereinafter referred to as "the Developer")
+
+AND
+
+CLIENT: Green Earth Marketing Nigeria Ltd, a company incorporated in Nigeria with RC No. 55667788, whose registered office is at 45 Allen Avenue, Ikeja, Lagos (hereinafter referred to as "the Client")
+
+BACKGROUND - WHY WE'RE DOING THIS PROJECT
+
+In Nigeria's rapidly growing digital economy, this agreement supports local innovation and business growth. The Client is a marketing agency helping Nigerian SMEs build their online presence, while the Developer is a Lagos-based software company specializing in African market solutions.
+
+This project will create a comprehensive digital marketing automation platform tailored specifically for Nigerian businesses, including support for mobile money integration, local payment methods, and compliance with Nigerian data protection regulations.
+
+1. PROJECT SCOPE - WHAT WE'RE BUILDING
+
+1.1 The Developer will create a comprehensive digital marketing automation platform (the "Software") specifically designed for Nigerian SMEs, with the following features:
+
+(a) Customer relationship management (CRM) with Nigerian business contact preferences
+(b) Email and SMS marketing automation (including support for Nigerian telecom networks)
+(c) WhatsApp Business API integration for direct customer engagement
+(d) Social media posting for local platforms (Facebook, Instagram, Twitter, TikTok)
+(e) Lead scoring and nurturing workflows adapted for Nigerian business culture
+(f) Analytics dashboard with Nigerian Naira currency support
+(g) Integration with popular Nigerian payment gateways (Paystack, Flutterwave, Interswitch)
+(h) Mobile-responsive design optimized for Nigeria's mobile-first internet usage
+(i) Multi-tenant architecture supporting up to 500 Nigerian SMEs
+(j) Offline capability for areas with unreliable internet connectivity
+
+1.2 The Software will be developed using modern technologies:
+   - Frontend: React.js with mobile-first responsive design
+   - Backend: Node.js with Express framework
+   - Database: PostgreSQL with MongoDB for unstructured data
+   - Cloud hosting: AWS Africa (Cape Town) for optimal Nigerian performance
+
+1.3 Special Nigerian features:
+   - Support for Pidgin English in user interfaces
+   - Integration with Nigerian business registration databases
+   - Compliance with Nigeria Data Protection Regulation (NDPR)
+   - Multi-currency support (Naira, Dollar, Pounds)
+   - Integration with Nigerian tax authorities for automated compliance
+
+2. PROJECT TIMELINE - WHEN WE'LL DELIVER
+
+2.1 Project milestones and delivery schedule:
+- Project kickoff and requirements gathering: November 15, 2024
+- UI/UX design with Nigerian user testing: December 15, 2024
+- Core platform development (50% complete): February 1, 2025
+- Alpha version with beta user testing: April 1, 2025
+- Beta version with Nigerian SME pilot clients: May 15, 2025
+- Final version delivery and staff training: June 30, 2025
+
+2.2 Time is crucial for Nigerian market opportunities. The Developer will provide weekly progress reports and will notify the Client immediately of any potential delays.
+
+3. PAYMENT TERMS - HOW MUCH AND WHEN
+
+3.1 Total project fee: ₦45,000,000 (Forty-Five Million Naira)
+
+3.2 Payment schedule:
+- 30% (₦13,500,000) upon contract signing and project initiation
+- 25% (₦11,250,000) upon completion of UI/UX design phase
+- 25% (₦11,250,000) upon delivery of alpha version
+- 20% (₦9,000,000) upon final delivery and acceptance
+
+3.3 Payments will be made in Nigerian Naira to the Developer's GTBank account. Invoices are due within 14 days of receipt to support Nigerian cash flow requirements. Late payments will incur interest at 2% per month.
+
+4. OWNERSHIP AND INTELLECTUAL PROPERTY
+
+4.1 Upon receipt of full payment, all rights, title, and interest in the Software shall transfer to the Client.
+
+4.2 The Developer retains ownership of all pre-existing intellectual property, development tools, and methodologies used in the project.
+
+4.3 The Developer grants the Client a perpetual, non-exclusive license to use any third-party software components incorporated into the Software.
+
+4.4 The Client grants the Developer permission to use the Software as a case study in marketing materials, provided no confidential information is disclosed.
+
+5. WARRANTIES AND SUPPORT
+
+5.1 The Developer warrants that the Software will be free from material defects and will perform substantially in accordance with the specifications for a period of 12 months from delivery.
+
+5.2 The Developer shall provide bug fixes and minor updates for a period of 12 months at no additional charge.
+
+5.3 The Developer warrants that the Software does not infringe any third-party intellectual property rights.
+
+6. CONFIDENTIALITY
+
+6.1 Both parties acknowledge that they may have access to confidential information of the other party.
+
+6.2 Each party agrees to maintain the confidentiality of the other's confidential information and not to disclose it to third parties without prior written consent.
+
+6.3 This confidentiality obligation shall survive termination of this Agreement for a period of five years.
+
+7. DATA PROTECTION AND SECURITY
+
+7.1 The Developer shall implement appropriate technical and organizational measures to ensure a level of security appropriate to the risk.
+
+7.2 The Developer shall comply with all applicable data protection laws, including the UK GDPR and Data Protection Act 2018.
+
+7.3 The Developer shall not process any personal data belonging to the Client's customers without explicit written instructions.
+
+8. TERMINATION
+
+8.1 Either party may terminate this Agreement upon 30 days written notice if the other party materially breaches any provision and fails to cure such breach within such period.
+
+8.2 The Client may terminate this Agreement at any time upon 14 days written notice, provided that the Client pays for all work completed to date plus 15% termination fee.
+
+8.3 Upon termination, each party shall return or destroy all confidential information of the other party.
+
+9. LIMITATION OF LIABILITY
+
+9.1 The Developer's total liability under this Agreement shall not exceed the total amount paid by the Client under this Agreement.
+
+9.2 Neither party shall be liable for any indirect, consequential, or punitive damages.
+
+9.3 These limitations shall not apply to breaches of confidentiality or willful misconduct.
+
+10. LEGAL MATTERS - GOVERNING LAW AND DISPUTES
+
+10.1 This Agreement shall be governed by the laws of the Federal Republic of Nigeria, particularly the Nigerian Copyright Act and Lagos State Contract Law.
+
+10.2 Any disputes arising under this Agreement shall first be addressed through mediation with the Lagos State Multi-Door Court House, and if unsuccessful, will be resolved in the Lagos State High Court.
+
+10.3 Both parties agree to use their best efforts to resolve disputes amicably, keeping in mind their mutual interest in supporting Nigeria's growing tech ecosystem.
+
+10.4 This Agreement represents the complete agreement between the parties and supersedes all prior negotiations, representations, or agreements.
+
+SIGNATURES
+
+Both parties have read, understood, and voluntarily agree to the terms of this agreement.
+
+DEVELOPER:                          CLIENT:
+
+_________________________         _________________________
+Lagos Tech Solutions Ltd           Green Earth Marketing Nigeria Ltd
+
+Name: Mr. Tayo Olamide             Name: Mrs. Chioma Okonkwo
+Title: Managing Director           Title: Chief Executive Officer
+Date: November 10, 2024           Date: November 10, 2024
+
+WITNESS:
+
+_________________________         _________________________
+Name: Barrister Funmi Olawale      Name: Mr. Emeka Asuquo
+Date: November 10, 2024           Date: November 10, 2024
+
+EXHIBIT A - DETAILED PROJECT SPECIFICATIONS
+[Technical specifications document would include Nigerian-specific requirements]
+
+EXHIBIT B - PROJECT TIMELINE AND MILESTONES
+[Detailed project plan with Nigerian business calendar considerations]
+
+EXHIBIT C - TESTING PROTOCOLS FOR NIGERIAN MARKETS
+[User acceptance testing plan with Nigerian SMEs]

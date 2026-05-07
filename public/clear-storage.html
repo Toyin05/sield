@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clear Sield Storage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #b91c1c;
+        }
+        .success {
+            background: #10b981;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .info {
+            background: #3b82f6;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧹 Sield Storage Clearer</h1>
+        <p>This tool will clear all Sield-related data from your browser to fix 404 errors and other issues.</p>
+        
+        <div class="info">
+            <strong>What will be cleared:</strong>
+            <ul>
+                <li>All document grants and access keys</li>
+                <li>All uploaded documents</li>
+                <li>Security violation logs</li>
+                <li>All Sield localStorage data</li>
+            </ul>
+        </div>
+
+        <button onclick="clearStorage()">🗑️ Clear All Sield Data</button>
+        <button onclick="checkStorage()">📊 Check Current Data</button>
+        <button onclick="window.close()">❌ Close</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function clearStorage() {
+            const keysToRemove = [];
+            
+            // Find all Sield-related keys
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('sield_')) {
+                    keysToRemove.push(key);
+                }
+            }
+            
+            // Remove all Sield keys
+            keysToRemove.forEach(key => {
+                localStorage.removeItem(key);
+                console.log(`Removed: ${key}`);
+            });
+            
+            // Also clear sessionStorage
+            const sessionKeysToRemove = [];
+            for (let i = 0; i < sessionStorage.length; i++) {
+                const key = sessionStorage.key(i);
+                if (key && key.startsWith('sield_')) {
+                    sessionKeysToRemove.push(key);
+                }
+            }
+            
+            sessionKeysToRemove.forEach(key => {
+                sessionStorage.removeItem(key);
+                console.log(`Removed from sessionStorage: ${key}`);
+            });
+            
+            document.getElementById('result').innerHTML = `
+                <div class="success">
+                    ✅ Successfully cleared ${keysToRemove.length} localStorage items and ${sessionKeysToRemove.length} sessionStorage items!
+                    <br><br>
+                    <strong>Next steps:</strong>
+                    <ol>
+                        <li>Close this tab</li>
+                        <li>Go back to your Sield application</li>
+                        <li>The system will automatically recreate fresh mock data</li>
+                    </ol>
+                </div>
+            `;
+        }
+        
+        function checkStorage() {
+            const sieldKeys = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('sield_')) {
+                    sieldKeys.push(key);
+                }
+            }
+            
+            document.getElementById('result').innerHTML = `
+                <div class="info">
+                    <strong>Current Sield data in localStorage:</strong>
+                    <ul>
+                        ${sieldKeys.map(key => `<li>${key}</li>`).join('') || '<li>No Sield data found</li>'}
+                    </ul>
+                    <strong>Total items:</strong> ${sieldKeys.length}
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
