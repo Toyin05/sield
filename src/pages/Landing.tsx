@@ -182,27 +182,27 @@ const Landing = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button
-                size="lg"
-                onClick={handleConnectClick}
-                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-glow-cyan animate-glow text-lg px-8 py-6"
-              >
-                Connect Wallet
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                onClick={() => scrollToSection('about')}
-                className="border-gray-800/70 text-gray-900 hover:bg-gray-800 hover:text-white bg-gray-900/20 backdrop-blur-sm text-lg px-8 py-6 transition-all duration-300"
-              >
-                Learn More
-              </Button>
+        <Button
+          size="lg"
+          onClick={handleConnectClick}
+          className="bg-secondary hover:bg-secondary text-secondary-foreground text-lg px-8 py-6"
+        >
+          Connect Wallet
+        </Button>
+               <Button
+                 size="lg"
+                 variant="outline"
+                 onClick={() => scrollToSection('about')}
+                 className="border-blue-400 text-white bg-transparent backdrop-blur-sm hover:bg-secondary text-lg px-8 py-6"
+               >
+                 Learn More
+               </Button>
             </div>
           </div>
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
           <div className="w-6 h-10 border-2 border-primary-foreground/30 rounded-full flex items-start justify-center p-2">
             <div className="w-1 h-3 bg-secondary rounded-full" />
           </div>
